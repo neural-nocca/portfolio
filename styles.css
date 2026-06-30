@@ -43,6 +43,8 @@ body::before {
   inset: 0;
   z-index: -2;           /* найнижчий шар */
   background: linear-gradient(to top, var(--gradient) 0%, var(--bg) 33%);
+  transform: translateZ(0);       /* окремий шар рендера — без «привидів» при гортанні */
+  backface-visibility: hidden;
 }
 
 /* Полотно з частинками — нерухомий шар над градієнтом, але за вмістом */
@@ -51,6 +53,8 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;  /* не заважає кліками */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -303,10 +307,12 @@ a { color: inherit; text-decoration: none; }
     top: 0;
     z-index: 10;
     height: auto;
-    padding: 22px 16px;
+    padding: 14px 16px;             /* менша панель */
     border-right: none;
     border-bottom: 1px solid var(--border);
     background: var(--sidebar-bg);
+    transform: translateZ(0);       /* окремий шар — прибирає «привидів» при гортанні */
+    backface-visibility: hidden;
   }
 
   /* Аватар ліворуч · @нік+ім'я по центру · стрілка › праворуч */
