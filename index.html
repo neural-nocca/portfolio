@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мої проєкти</title>
+  <link rel="preconnect" href="https://api.github.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Нерухоме полотно з частинками (за всім вмістом) -->
+  <canvas id="bg-particles" aria-hidden="true"></canvas>
+
+  <!-- Налаштування: зміни лише цей нік, якщо колись знадобиться -->
+  <div id="app" data-username="neural-nocca">
+
+    <!-- Ліва нерухома область з профілем (1/5) -->
+    <aside class="sidebar">
+      <div class="profile" id="profile">
+        <div class="profile__skeleton">Завантаження профілю…</div>
+      </div>
+    </aside>
+
+    <!-- Права область з проєктами (4/5) -->
+    <main class="content">
+      <header class="content__header">
+        <h1 class="content__title">Проєкти</h1>
+        <div class="toolbar">
+          <input
+            type="search"
+            id="search"
+            class="toolbar__search"
+            placeholder="Пошук за назвою чи описом…"
+            aria-label="Пошук проєктів"
+          />
+          <div class="dropdown" id="sortDropdown">
+            <button type="button" class="dropdown__btn" id="sortBtn" aria-haspopup="listbox" aria-expanded="false">
+              <span id="sortLabel">Спочатку найкращі</span>
+              <span class="dropdown__arrow" aria-hidden="true">▾</span>
+            </button>
+            <ul class="dropdown__list" id="sortList" role="listbox" hidden>
+              <li class="dropdown__item is-active" role="option" data-value="stars">Спочатку найкращі</li>
+              <li class="dropdown__item" role="option" data-value="updated">Спочатку нові</li>
+              <li class="dropdown__item" role="option" data-value="name">За назвою (А–Я)</li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid" id="grid" aria-live="polite">
+        <p class="status" id="status">Завантаження проєктів…</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="particles.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

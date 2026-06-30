@@ -1,0 +1,341 @@
+/* ============================================================
+   ПАЛІТРА — усі кольори й розміри зібрані тут.
+   Щоб змінити вигляд сайту — редагуй лише ці значення.
+   ============================================================ */
+:root {
+  /* --- кольори --- */
+  --bg:                #4a3b63;  /* основний фон сторінки */
+  --gradient:          #633d62;  /* колір градієнта знизу сторінки */
+  --sidebar-bg:        #3d3155;  /* фон панелі профілю */
+  --card-bg:           #554572;  /* фон картки */
+  --card-bg-hover:     #614f7f;  /* картка під курсором */
+  --card-hover-border: #fff1c6;  /* рамка картки під курсором */
+  --text:              #f3edf6;  /* основний текст */
+  --text-muted:        #c5b4ce;  /* приглушений текст */
+  --gold:              #ffec93;  /* акцент: нік, назви проєктів, посилання, рамка аватарки */
+  --on-gold:           #3a2342;  /* текст на золотому фоні (при наведенні) */
+  --accent-soft:       #514170;  /* фон-заглушка під аватаркою */
+  --border:            #5e4f7a;  /* рамки й розділювачі */
+
+  /* --- розміри --- */
+  --radius: 16px;  /* заокруглення карток */
+  --gap:    18px;  /* відступ між картками */
+}
+
+/* ---------- Базове ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Статичний (нерухомий) градієнтний фон за вмістом:
+   знизу #72355e → поточний фон на 1/3 висоти екрана. */
+body::before {
+  content: "";
+  position: fixed;       /* прибито до вікна — не рухається при прокручуванні */
+  inset: 0;
+  z-index: -2;           /* найнижчий шар */
+  background: linear-gradient(to top, var(--gradient) 0%, var(--bg) 33%);
+}
+
+/* Полотно з частинками — нерухомий шар над градієнтом, але за вмістом */
+#bg-particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;  /* не заважає кліками */
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Каркас: 1/5 + 4/5 ---------- */
+#app {
+  display: grid;
+  grid-template-columns: 1fr 4fr; /* саме співвідношення з малюнка */
+  min-height: 100vh;
+}
+
+/* ---------- Ліва нерухома колонка ---------- */
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 32px 24px;
+  position: sticky;       /* «нерухома область з профілем» */
+  top: 0;
+  align-self: start;
+  height: 100vh;
+}
+
+.profile { text-align: center; }
+
+.profile__skeleton { color: var(--text-muted); font-size: 15px; }
+
+/* На десктопі — вертикально по центру; на телефоні стане рядком */
+.profile__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold);   /* рамка аватарки — тепло-жовта */
+  background: var(--accent-soft);
+}
+
+.profile__id { display: flex; flex-direction: column; gap: 2px; }
+
+.profile__name { font-size: 20px; font-weight: 700; order: 2; }
+
+.profile__nick {
+  color: var(--gold);
+  font-size: 28px;        /* як «Проєкти» */
+  font-weight: 400;       /* але не жирний */
+  line-height: 1.1;
+  display: inline-block;
+  order: 1;
+}
+
+/* Стрілка › — лише на телефоні (на десктопі прихована) */
+.profile__chevron {
+  display: none;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--text-muted);
+  padding: 4px 8px;
+}
+
+.profile__bio {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+.profile__stats {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.stat { text-align: center; }
+.stat__num { display: block; font-size: 18px; font-weight: 700; }
+.stat__label { font-size: 13px; color: var(--text-muted); }
+
+.profile__link {
+  display: inline-block;
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  transition: background .15s, color .15s;
+}
+.profile__link:hover { background: var(--gold); color: var(--on-gold); }
+
+/* ---------- Права колонка ---------- */
+.content { padding: 32px 36px; min-width: 0; }
+
+.content__header { margin-bottom: 24px; }
+
+.content__title { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
+
+.toolbar { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.toolbar__search {
+  flex: 1;
+  min-width: 200px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--gold);                 /* колір тексту — як у назв проєктів */
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+}
+.toolbar__search::placeholder { color: var(--gold); opacity: .55; }
+.toolbar__search:focus { border-color: var(--gold); }
+
+/* ---------- Власний випадаючий список (щоб керувати кольором наведення) ---------- */
+.dropdown { position: relative; }
+
+.dropdown__btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown__btn:focus,
+.dropdown.is-open .dropdown__btn { border-color: var(--gold); }
+
+.dropdown__arrow { color: var(--text-muted); font-size: 11px; transition: transform .15s; }
+.dropdown.is-open .dropdown__arrow { transform: rotate(180deg); }
+
+.dropdown__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .35);
+  z-index: 20;
+}
+.dropdown__list[hidden] { display: none; }
+
+.dropdown__item {
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 15px;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* Наведення / вибраний — золотий, а не стандартний синій */
+.dropdown__item:hover,
+.dropdown__item.is-active { background: var(--gold); color: var(--on-gold); }
+
+/* ---------- Сітка проєктів ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 колонки, як на малюнку */
+  gap: var(--gap);
+}
+
+.status { color: var(--text-muted); grid-column: 1 / -1; padding: 24px 0; }
+
+/* ---------- Картка проєкту ---------- */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background .15s, transform .15s, border-color .15s;
+}
+.card:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--card-hover-border);
+  transform: translateY(-2px);
+}
+
+.card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+
+.card__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  word-break: break-word;
+}
+
+.card__meta { display: flex; gap: 14px; font-size: 14px; color: var(--text-muted); flex-shrink: 0; }
+.card__meta span { display: inline-flex; align-items: center; gap: 4px; }
+
+.card__desc {
+  color: var(--text-muted);
+  font-size: 15px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;       /* максимум 3 рядки опису */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Смужка співвідношення мов ---------- */
+.langs { margin-top: auto; }
+
+.langbar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--border);
+}
+.langbar__seg { height: 100%; }
+
+.langlegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.langlegend__item { display: inline-flex; align-items: center; gap: 5px; }
+.langlegend__dot { width: 9px; height: 9px; border-radius: 50%; }
+
+/* ---------- Адаптив: на телефоні сайдбар стає нерухомою шапкою ---------- */
+@media (max-width: 820px) {
+  /* Вимикаємо grid — інакше порожні рядки сітки розтягують шапку */
+  #app { display: block; min-height: 0; }
+
+  /* Шапка прилипає до верху і не рухається при прокручуванні */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: auto;
+    padding: 22px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    background: var(--sidebar-bg);
+  }
+
+  /* Аватар ліворуч · @нік+ім'я по центру · стрілка › праворуч */
+  .profile { text-align: left; }
+  .profile__main {
+    flex-direction: row;
+    align-items: center;   /* усе по центру по вертикалі панелі */
+    gap: 18px;             /* відступ від аватарки до @ніку */
+    margin-bottom: 0;
+  }
+  .profile__avatar { width: 72px; height: 72px; border-width: 2px; }
+  .profile__id { flex: 1; text-align: left; display: flex; justify-content: center; }
+  .profile__name { font-size: 16px; }
+  /* нік лишається 28px — як на ПК; line-height:1 прибирає зайвий простір над/під текстом */
+  .profile__nick { line-height: 1; position: relative; top: 2px; } /* трохи нижче */
+  .profile__chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;     /* більша стрілка-посилання */
+    line-height: 1;      /* щоб гліф ‹›› центрувався, а не з'їжджав угору */
+    padding: 0 6px;
+  }
+
+  /* На шапці зайве ховаємо */
+  .profile__bio,
+  .profile__stats,
+  .profile__link { display: none; }
+
+  .grid { grid-template-columns: 1fr; } /* одна колонка карток */
+  .content { padding: 14px 18px; }
+}
